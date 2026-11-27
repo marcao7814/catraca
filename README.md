@@ -62,7 +62,19 @@ Se a porta 3000 estiver ocupada, copie `.env.example` para `.env` e defina `CATR
 | F07 Cancelamento de evento | [features/F07-cancelamento](features/F07-cancelamento) |
 | F08 Painel do evento | [features/F08-painel](features/F08-painel) |
 
-**PRs da wave paralela:** serão listados aqui quando as waves W3 (F03, F05, F07) e W4 (F06, F08) forem integradas.
+### PRs das waves paralelas
+
+**W3 — F03, F05 e F07 implementadas ao mesmo tempo**, por três agentes, cada um em seu worktree e branch:
+
+| PR | Feature | Primeiro commit | Último commit de implementação |
+|---|---|---|---|
+| [#5](https://github.com/marcao7814/catraca/pull/5) | F03 Vitrine e área do participante | 2026-11-27 14:58:38 -03:00 | 2026-11-27 15:08:56 -03:00 |
+| [#6](https://github.com/marcao7814/catraca/pull/6) | F07 Cancelamento de evento | 2026-11-27 14:59:11 -03:00 | 2026-11-27 15:07:59 -03:00 |
+| [#7](https://github.com/marcao7814/catraca/pull/7) | F05 API de parceiros | 2026-11-27 14:59:28 -03:00 | 2026-11-27 15:31:40 -03:00 |
+
+O primeiro commit de cada PR é anterior ao último commit dos outros dois. Depois da implementação, cada PR recebeu o commit do relatório do avaliador e, nos dois últimos a entrar, o commit de integração com a `main` (conflito em `src/app.ts`, resolvido com os gates verdes).
+
+**W4 — F06 e F08:** serão listados aqui quando integrados.
 
 ## Decisões
 
