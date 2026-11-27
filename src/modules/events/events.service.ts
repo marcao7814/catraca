@@ -138,6 +138,8 @@ export async function publishEvent(organizerId: string, eventId: string): Promis
   return withTx(async (client) => {
     const event = await lockOwnedEvent(client, organizerId, eventId);
     if (!event) throw new EventError('not_found', 'Evento não encontrado.');
+    if (event.status === 'cancelled')
+      throw new EventError('not_editable', 'Evento cancelado não pode ser editado.');
     if (event.status !== 'draft')
       throw new EventError('not_publishable', 'Só eventos em rascunho podem ser publicados.');
     if (event.startsAt.getTime() <= Date.now())
