@@ -1,0 +1,33 @@
+# Serviços efêmeros dos gates (profile "test"). Usado por scripts/gates.mjs.
+services:
+  db_test:
+    profiles: ["test"]
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: catraca
+      POSTGRES_PASSWORD: catraca
+      POSTGRES_DB: catraca_test
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catraca -d catraca_test"]
+      interval: 1s
+      timeout: 3s
+      retries: 60
+
+  gates:
+    profiles: ["test"]
+    build:
+      context: .
+      target: dev
+    depends_on:
+      db_test:
+        condition: service_healthy
+    environment:
+      NODE_ENV: test
+      DATABASE_URL: postgres://catraca:catraca@db_test:5432/catraca_test
+      PG_POOL_MAX: "40"
+      PARTNER_API_KEY: catraca-partner-dev-key
+      GATEWAY_MODE: simulated
+      GATEWAY_DELAY_SCALE: "0.01"
+      WORKER_INTERVAL_MS: "20"
