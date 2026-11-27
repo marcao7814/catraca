@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T02:00:00-03:00",
+  "updatedAt": "2026-11-27T14:00:00-03:00",
   "features": [
     {
       "id": "F01",
@@ -14,10 +14,10 @@
       "id": "F02",
       "name": "Gestão de eventos",
       "wave": 1,
-      "status": "todo",
-      "branch": null,
-      "pr": null,
-      "latestReport": null
+      "status": "done",
+      "branch": "feat/F02-eventos",
+      "pr": "https://github.com/marcao7814/catraca/pull/2",
+      "latestReport": "features/F02-eventos/reports/2026-11-27-1346-3506830.md"
     },
     {
       "id": "F04",
