@@ -9,6 +9,7 @@ import { render } from './lib/render.js';
 import './modules/auth/types.js';
 import { authRoutes } from './modules/auth/routes.js';
 import { eventsRoutes } from './modules/events/routes.js';
+import { partnerApiPlugin } from './modules/partner-api/index.js';
 
 export interface BuildAppOptions {
   logger?: boolean;
@@ -58,6 +59,7 @@ export async function buildApp(opts: BuildAppOptions = {}): Promise<FastifyInsta
 
   await authRoutes(app);
   await eventsRoutes(app);
+  await app.register(partnerApiPlugin, { prefix: '/api/partner' });
 
   // Vitrine provisória; F03 substitui.
   app.get('/', async (req, reply) => render(req, reply, 'home.ejs', { title: 'Catraca' }));
