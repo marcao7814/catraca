@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T14:00:00-03:00",
+  "updatedAt": "2026-11-27T15:00:00-03:00",
   "features": [
     {
       "id": "F01",
@@ -23,10 +23,10 @@
       "id": "F04",
       "name": "Motor de vendas e gateway",
       "wave": 2,
-      "status": "todo",
-      "branch": null,
-      "pr": null,
-      "latestReport": null
+      "status": "done",
+      "branch": "feat/F04-vendas",
+      "pr": "https://github.com/marcao7814/catraca/pull/3",
+      "latestReport": "features/F04-vendas/reports/2026-11-27-1418-6fa112a.md"
     },
     {
       "id": "F03",

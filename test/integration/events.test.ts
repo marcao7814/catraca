@@ -100,7 +100,9 @@ describe('F02 — edição (R01, R03)', () => {
     const id = await createEventHttp(app, a, { capacity: '3' });
     await publishHttp(app, a, id);
     await insertTickets(id, 'confirmed', 1);
-    await insertTickets(id, 'declined', 2);
+    await insertTickets(id, 'declined', 1);
+    await insertTickets(id, 'cancelled', 1);
+    await insertTickets(id, 'refunded', 1);
     const res = await editHttp(app, a, id, { capacity: '1' });
     expect(res.statusCode).toBe(302);
     expect((await getEvent(id))!.capacity).toBe(1);
