@@ -52,7 +52,7 @@ flowchart LR
 ├── Dockerfile
 ├── .env.example               # PARTNER_API_KEY, GATEWAY_DELAY_SCALE...
 ├── docs/
-│   ├── prd.md  adr.md  tdr.md
+│   ├── brief.md prd.md adr.md tdr.md specs.md seguranca.md
 │   └── prompts/ implementer.md  evaluator.md
 ├── features/
 │   └── F01-fundacao/ spec.md plan.md contract.md reports/
@@ -60,9 +60,10 @@ flowchart LR
 ├── migrations/                # 0001_init.sql ...
 ├── scripts/
 │   ├── entrypoint.sh          # migrate → seed → node dist/server.js
+│   ├── gates.mjs              # orquestra os gates (container + host)
+│   ├── eval-helpers.sh        # helpers de shell para o avaliador
 │   ├── check-reports.mjs      # relatórios com um único commit
 │   ├── check-state.mjs        # project-state.json coerente
-│   └── e2e-flow.mjs           # Fluxo do avaliador automatizado
 ├── src/
 │   ├── server.ts  app.ts  config.ts
 │   ├── db/ pool.ts tx.ts
@@ -316,7 +317,8 @@ O teto é reduzido em 0,5 s para absorver o intervalo do worker e manter o resul
 
 | Variável | Padrão | Uso |
 |---|---|---|
-| `PORT` | 3000 | porta HTTP |
+| `CATRACA_PORT` | 3000 | porta do produto no host (compose) |
+| `PORT` | 3000 | porta HTTP dentro do container |
 | `DATABASE_URL` | `postgres://catraca:catraca@db:5432/catraca` | conexão |
 | `PG_POOL_MAX` | 30 | suporta rajada de 30 |
 | `PARTNER_API_KEY` | `catraca-partner-dev-key` | chave do parceiro (documentada no README) |
@@ -349,13 +351,12 @@ services:
   db:
     image: postgres:16-alpine
     environment: { POSTGRES_USER: catraca, POSTGRES_PASSWORD: catraca, POSTGRES_DB: catraca }
-    ports: ["5432:5432"]
     volumes: [catraca_pgdata:/var/lib/postgresql/data]
     healthcheck: { test: ["CMD","pg_isready","-U","catraca"], interval: 2s, retries: 30 }
   app:
     build: .
     depends_on: { db: { condition: service_healthy } }
-    ports: ["3000:3000"]
+    ports: ["${CATRACA_PORT:-3000}:3000"]
     environment: { ... padrões da seção 7 ... }
     healthcheck: { test: ["CMD","wget","-qO-","http://localhost:3000/healthz"], interval: 2s, retries: 60 }
 volumes: { catraca_pgdata: {} }
@@ -368,9 +369,9 @@ volumes: { catraca_pgdata: {} }
 1. `eslint .` (inclui regra de fronteira entre módulos)
 2. `tsc --noEmit`
 3. `vitest run` — unidade + integração (concorrência repetida 20×, máquina de estados, ordem de R10, painel)
-4. `node scripts/e2e-flow.mjs` — sobe o app em processo contra `db_test` e executa os passos 2–16 do Fluxo do avaliador com gateway acelerado
-5. `node scripts/check-reports.mjs` — cada relatório com exatamente um commit
-6. `node scripts/check-state.mjs` — `project-state.json` coerente (feature, status, caminho existe, relatório `APPROVED`)
+   - inclui `test/e2e/` — app em processo contra `db_test`, passos 2–16 do Fluxo do avaliador com gateway acelerado (cresce a cada feature)
+4. `node scripts/check-reports.mjs` (no host) — cada relatório com exatamente um commit
+5. `node scripts/check-state.mjs` (no host) — `project-state.json` coerente (feature, status, caminho existe, relatório `APPROVED`)
 
 Saída diferente de zero em qualquer etapa reprova os gates.
 
@@ -381,7 +382,7 @@ Saída diferente de zero em qualquer etapa reprova os gates.
 | Unidade | Vitest | dinheiro, datas, gerador de código, tabela do gateway, validação |
 | Integração | Vitest + Postgres real | repositórios, `purchaseTicket` concorrente, transições condicionais, cancelamento × worker, check-in, painel |
 | HTTP | `app.inject()` | contrato da API de parceiros (corpos e status exatos), guarda R13 |
-| E2E | `e2e-flow.mjs` | Fluxo do avaliador completo (passos 2–16) |
+| E2E | Vitest `test/e2e/` | Fluxo do avaliador completo (passos 2–16) |
 | Manual/avaliador | curl + navegador | contrato de cada feature, com evidência no relatório |
 
 Teste de concorrência: `Promise.all` de 30 chamadas com conexões distintas do pool; afirma 5/25 e o invariante; repete em 20 eventos novos. Teste de corrida cancelamento × gateway: cria pendente com `respond_at` imediato, inicia worker e cancelamento ao mesmo tempo, repete 50×, afirma estado final sempre `cancelled` ou (`confirmed→refunded`) — nunca `confirmed` em evento cancelado.

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · Catraca</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 0 auto; padding: 0 1rem 3rem; line-height: 1.5; }
+    header { display: flex; gap: 1rem; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: .75rem 0; margin-bottom: 1.5rem; }
+    header nav { display: flex; gap: 1rem; align-items: center; }
+    header form { margin: 0; }
+    .error { color: #a40000; }
+    .notice { color: #0a5c00; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #eee; padding: .4rem; text-align: left; }
+    label { display: block; margin: .5rem 0 .2rem; }
+    input, button { font: inherit; padding: .3rem .5rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/"><strong>Catraca</strong></a>
+    <nav>
+      <% if (user && user.role === 'organizer') { %>
+        <a href="/organizer/events">Meus eventos</a>
+      <% } else if (user && user.role === 'participant') { %>
+        <a href="/me/tickets">Meus ingressos</a>
+      <% } %>
+      <% if (user) { %>
+        <span><%= user.name %></span>
+        <form method="post" action="/logout"><button type="submit">Sair</button></form>
+      <% } else { %>
+        <a href="/login">Entrar</a>
+        <a href="/signup">Criar conta</a>
+      <% } %>
+    </nav>
+  </header>
+  <main>
+    <%- body %>
+  </main>
+</body>
+</html>

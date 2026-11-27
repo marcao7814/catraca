@@ -201,7 +201,7 @@ Convenção: `AC-Fxx-n` é critério da própria feature; `CX-Fa-Fb` é critéri
 #### F01 — Fundação e harness
 - **AC-F01-1** Em um clone limpo, `npm run up` sobe Postgres e app, aplica migrações e roda a seed; `GET $WEB/healthz` responde 200 sem nenhum outro passo.
 - **AC-F01-2** `npm run down` seguido de `npm run up` funciona sem erro, inclusive a seed (idempotente).
-- **AC-F01-3** Após `npm run down`, nenhuma porta do produto (3000, 5432) responde e `docker ps --filter label=com.docker.compose.project=catraca` está vazio.
+- **AC-F01-3** Após `npm run down`, nenhuma porta do produto (3000; o Postgres não publica porta) responde e `docker ps --filter label=com.docker.compose.project=catraca` está vazio.
 - **AC-F01-4** `npm run gates` executa lint, typecheck e testes automatizados e retorna código 0 na `main`.
 - **AC-F01-5** A seed cria organizador A, organizador B e participante com as credenciais do README; rodar a seed duas vezes não duplica usuários nem falha.
 - **AC-F01-6** Nenhuma variável de gateway real é necessária; `GATEWAY_MODE` padrão é `simulated`.

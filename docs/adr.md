@@ -28,8 +28,8 @@
 - Runtime: Node.js 22 LTS, TypeScript estrito.
 - HTTP: Fastify 5 (rotas, validação por JSON Schema, `inject()` para testes sem rede).
 - UI: HTML renderizado no servidor com templates EJS (`@fastify/view`) e formulários `POST` simples. Sem SPA, sem build de front-end.
-- Acesso a dados: `pg` (node-postgres) com SQL explícito em repositórios; migrações SQL versionadas executadas por `node-pg-migrate`.
-- Testes: Vitest (unidade e integração contra Postgres real) + script E2E do Fluxo do avaliador em Node (`fetch`).
+- Acesso a dados: `pg` (node-postgres) com SQL explícito em repositórios; migrações SQL versionadas executadas por um migrador próprio de ~60 linhas (`src/db/migrate.ts`, advisory lock + tabela `schema_migrations`), sem dependência extra.
+- Testes: Vitest (unidade, integração contra Postgres real e E2E do Fluxo do avaliador em `test/e2e/`).
 - Qualidade: ESLint + `tsc --noEmit`.
 
 **Alternativas.**
@@ -57,7 +57,7 @@
 
 **Contexto.** O brief fala em `$WEB` e `$API`; podem ser o mesmo endereço.
 
-**Decisão.** Um processo Fastify em `http://localhost:3000` serve a web (`/`, `/login`, `/me/*`, `/organizer/*`) e a API (`/api/partner/*`). O worker do gateway roda no mesmo processo (intervalo de 500 ms). Código organizado por módulo de feature (`src/modules/<feature>`), com dependências só na direção do grafo do PRD.
+**Decisão.** Um processo Fastify em `http://localhost:3000` (porta do host configurável por `CATRACA_PORT`) serve a web (`/`, `/login`, `/me/*`, `/organizer/*`) e a API (`/api/partner/*`). O worker do gateway roda no mesmo processo (intervalo de 500 ms). Código organizado por módulo de feature (`src/modules/<feature>`), com dependências só na direção do grafo do PRD.
 
 `$WEB = $API = http://localhost:3000`.
 
@@ -204,8 +204,9 @@ Defesa extra no banco: `CHECK (status IN (...))` e trigger opcional rejeitando t
 |---|---|
 | `npm run up` | `docker compose up -d --build --wait` — o container `app` roda migrações e seed no entrypoint antes de abrir a porta; healthcheck em `/healthz` |
 | `npm run down` | `docker compose --profile test down --remove-orphans` (mantém o volume do banco) |
-| `npm run gates` | `docker compose -f compose.yml -f compose.test.yml run --rm gates` — lint, typecheck, Vitest, E2E com gateway acelerado, `check-reports`, `check-state`; banco de teste isolado (`catraca_test`) |
+| `npm run gates` | `node scripts/gates.mjs`: `gates:inner` (lint, typecheck, Vitest incl. E2E com gateway acelerado) no container `gates` contra `db_test` efêmero, que é removido em seguida; depois `check-reports` e `check-state` no host (usam git) |
 | `npm run seed` | re-executa a seed no container em execução (idempotente) |
+| `npm run logs` | acompanha os logs do app |
 | `npm run reset` | `down -v` + `up` (apaga dados; uso local) |
 
 Os scripts não exigem `npm install` no host: só usam `docker compose`. Projeto Compose fixo: `name: catraca`.

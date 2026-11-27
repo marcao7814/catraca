@@ -1,0 +1,77 @@
+{
+  "updatedAt": "2026-11-27T02:00:00-03:00",
+  "features": [
+    {
+      "id": "F01",
+      "name": "Fundação e harness",
+      "wave": 0,
+      "status": "done",
+      "branch": "feat/F01-fundacao",
+      "pr": "https://github.com/marcao7814/catraca/pull/1",
+      "latestReport": "features/F01-fundacao/reports/2026-11-26-2159-6f8aa32.md"
+    },
+    {
+      "id": "F02",
+      "name": "Gestão de eventos",
+      "wave": 1,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F04",
+      "name": "Motor de vendas e gateway",
+      "wave": 2,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F03",
+      "name": "Vitrine e área do participante",
+      "wave": 3,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F05",
+      "name": "API de parceiros",
+      "wave": 3,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F07",
+      "name": "Cancelamento de evento",
+      "wave": 3,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F06",
+      "name": "Check-in",
+      "wave": 4,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F08",
+      "name": "Painel do evento",
+      "wave": 4,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    }
+  ]
+}

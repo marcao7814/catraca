@@ -1,0 +1,45 @@
+name: catraca
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: catraca
+      POSTGRES_PASSWORD: catraca
+      POSTGRES_DB: catraca
+    # Sem porta publicada: só o app acessa o banco, pela rede interna do Compose.
+    volumes:
+      - catraca_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catraca -d catraca"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  app:
+    build:
+      context: .
+      target: prod
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${CATRACA_PORT:-3000}:3000"
+    environment:
+      PORT: "3000"
+      DATABASE_URL: postgres://catraca:catraca@db:5432/catraca
+      PG_POOL_MAX: "30"
+      PARTNER_API_KEY: catraca-partner-dev-key
+      GATEWAY_MODE: simulated
+      GATEWAY_DELAY_SCALE: "1"
+      WORKER_INTERVAL_MS: "500"
+      SESSION_TTL_HOURS: "24"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/healthz >/dev/null || exit 1"]
+      interval: 2s
+      timeout: 3s
+      retries: 60
+      start_period: 5s
+
+volumes:
+  catraca_pgdata:

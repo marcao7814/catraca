@@ -1,0 +1,43 @@
+{
+  "name": "catraca",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "up": "docker compose up -d --build --wait",
+    "down": "docker compose -f compose.yml -f compose.test.yml --profile test down --remove-orphans",
+    "reset": "docker compose -f compose.yml -f compose.test.yml --profile test down -v --remove-orphans && docker compose up -d --build --wait",
+    "seed": "docker compose exec app node dist/seed/seed.js",
+    "logs": "docker compose logs -f app",
+    "gates": "node scripts/gates.mjs",
+    "gates:inner": "npm run lint && npm run typecheck && npm run test",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx watch src/server.ts"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.1.5",
+    "@fastify/formbody": "^9.0.2",
+    "@fastify/view": "^12.0.1",
+    "bcryptjs": "^3.0.3",
+    "ejs": "^7.0.2",
+    "fastify": "^5.12.8",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/ejs": "^3.1.5",
+    "@types/node": "^26.6.11",
+    "@types/pg": "^8.23.1",
+    "eslint": "^10.15.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.74.0",
+    "vitest": "^5.1.2"
+  }
+}
