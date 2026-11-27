@@ -27,3 +27,13 @@ ticket() {
 events() {
   curl -s -w ' %{http_code}\n' -H "X-Api-Key: $KEY" "$API/api/partner/events"
 }
+
+# Compra/consulta direto no motor de vendas (F04), sem passar pela API de parceiros.
+# Útil em branches onde a F05 ainda não existe. Requer o app no ar (npm run up).
+# cli_buy <eventId> <cartão> [email]   |   cli_ticket <ticketId>
+cli_buy() {
+  docker compose exec -T app node dist/tools/sales-cli.js buy "$@"
+}
+cli_ticket() {
+  docker compose exec -T app node dist/tools/sales-cli.js ticket "$@"
+}
