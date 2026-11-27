@@ -9,7 +9,9 @@ import { render } from './lib/render.js';
 import './modules/auth/types.js';
 import { authRoutes } from './modules/auth/routes.js';
 import { eventsRoutes } from './modules/events/routes.js';
+import { cancellationRoutes } from './modules/cancellation/routes.js';
 import { partnerApiPlugin } from './modules/partner-api/index.js';
+import { storefrontRoutes } from './modules/storefront/routes.js';
 
 export interface BuildAppOptions {
   logger?: boolean;
@@ -59,10 +61,9 @@ export async function buildApp(opts: BuildAppOptions = {}): Promise<FastifyInsta
 
   await authRoutes(app);
   await eventsRoutes(app);
+  await cancellationRoutes(app);
+  await storefrontRoutes(app);
   await app.register(partnerApiPlugin, { prefix: '/api/partner' });
-
-  // Vitrine provisória; F03 substitui.
-  app.get('/', async (req, reply) => render(req, reply, 'home.ejs', { title: 'Catraca' }));
 
   app.setNotFoundHandler((req, reply) =>
     render(req, reply.code(404), 'error.ejs', { title: 'Não encontrado', message: 'Página não encontrada.' }),

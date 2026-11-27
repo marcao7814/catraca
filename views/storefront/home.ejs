@@ -1,0 +1,19 @@
+<h1>Eventos</h1>
+<% if (items.length === 0) { %>
+  <p>Nenhum evento à venda no momento.</p>
+<% } else { %>
+  <table>
+    <thead><tr><th>Evento</th><th>Data</th><th>Local</th><th>Preço</th><th>Vagas</th></tr></thead>
+    <tbody>
+      <% for (const { event, available } of items) { %>
+        <tr>
+          <td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+          <td><%= formatDisplay(event.startsAt) %></td>
+          <td><%= event.venue %></td>
+          <td><%= formatBRL(event.priceCents) %></td>
+          <td><%= available === 0 ? soldOutMessage : available %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% } %>

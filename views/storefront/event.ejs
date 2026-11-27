@@ -1,0 +1,22 @@
+<h1><%= event.name %></h1>
+<dl>
+  <dt>Data</dt><dd><%= formatDisplay(event.startsAt) %></dd>
+  <dt>Local</dt><dd><%= event.venue %></dd>
+  <dt>Preço</dt><dd><%= formatBRL(event.priceCents) %></dd>
+  <% if (!soldOut) { %><dt>Vagas</dt><dd><%= available %></dd><% } %>
+</dl>
+
+<% if (soldOut) { %>
+  <p class="error" role="alert"><strong><%= soldOutMessage %></strong></p>
+<% } else if (!user) { %>
+  <p><a href="/login?next=<%= encodeURIComponent('/events/' + event.id) %>">Entre para comprar</a> · <a href="/signup">Criar conta</a></p>
+<% } else if (user.role !== 'participant') { %>
+  <p>Somente participantes compram ingressos pela vitrine.</p>
+<% } else { %>
+  <% if (error) { %><p class="error" role="alert"><%= error %></p><% } %>
+  <form method="post" action="/events/<%= event.id %>/purchase">
+    <label for="cardNumber">Número do cartão</label>
+    <input id="cardNumber" name="cardNumber" inputmode="numeric" autocomplete="off" maxlength="23" required placeholder="0000 0000 0000 0000">
+    <p><button type="submit">Comprar</button></p>
+  </form>
+<% } %>
