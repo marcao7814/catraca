@@ -9,6 +9,7 @@ import { render } from './lib/render.js';
 import './modules/auth/types.js';
 import { authRoutes } from './modules/auth/routes.js';
 import { eventsRoutes } from './modules/events/routes.js';
+import { cancellationRoutes } from './modules/cancellation/routes.js';
 import { storefrontRoutes } from './modules/storefront/routes.js';
 
 export interface BuildAppOptions {
@@ -59,6 +60,7 @@ export async function buildApp(opts: BuildAppOptions = {}): Promise<FastifyInsta
 
   await authRoutes(app);
   await eventsRoutes(app);
+  await cancellationRoutes(app);
   await storefrontRoutes(app);
 
   app.setNotFoundHandler((req, reply) =>
