@@ -11,7 +11,7 @@
           <td><%= formatDisplay(event.startsAt) %></td>
           <td><%= event.venue %></td>
           <td><%= formatBRL(event.priceCents) %></td>
-          <td><%= available === 0 ? 'Ingressos esgotados' : available %></td>
+          <td><%= available === 0 ? soldOutMessage : available %></td>
         </tr>
       <% } %>
     </tbody>

@@ -1,0 +1,18 @@
+<h1>Meus ingressos</h1>
+<% if (tickets.length === 0) { %>
+  <p>Você ainda não tem ingressos. <a href="/">Ver eventos</a></p>
+<% } else { %>
+  <table>
+    <thead><tr><th>Evento</th><th>Data</th><th>Status</th><th>Código</th></tr></thead>
+    <tbody>
+      <% for (const t of tickets) { %>
+        <tr>
+          <td><%= t.eventName %></td>
+          <td><%= formatDisplay(t.eventStartsAt) %></td>
+          <td><%= statusLabel[t.status] %></td>
+          <td><code><%= t.code %></code></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% } %>
