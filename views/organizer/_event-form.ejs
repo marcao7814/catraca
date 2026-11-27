@@ -1,0 +1,24 @@
+<%# Campos do formulário de evento. Espera: values, fieldErrors, action, submitLabel %>
+<form method="post" action="<%= action %>" id="event-form">
+  <label for="name">Nome</label>
+  <input id="name" name="name" value="<%= values.name %>" maxlength="200" required>
+  <% if (fieldErrors.name) { %><p class="error"><%= fieldErrors.name %></p><% } %>
+
+  <label for="startsAt">Data e hora de início (horário de Brasília)</label>
+  <input id="startsAt" name="startsAt" type="datetime-local" value="<%= values.startsAt %>" required>
+  <% if (fieldErrors.startsAt) { %><p class="error"><%= fieldErrors.startsAt %></p><% } %>
+
+  <label for="venue">Local</label>
+  <input id="venue" name="venue" value="<%= values.venue %>" maxlength="200" required>
+  <% if (fieldErrors.venue) { %><p class="error"><%= fieldErrors.venue %></p><% } %>
+
+  <label for="capacity">Lotação</label>
+  <input id="capacity" name="capacity" type="number" min="1" step="1" value="<%= values.capacity %>" required>
+  <% if (fieldErrors.capacity) { %><p class="error"><%= fieldErrors.capacity %></p><% } %>
+
+  <label for="price">Preço (R$)</label>
+  <input id="price" name="price" inputmode="decimal" placeholder="100,00" value="<%= values.price %>" required>
+  <% if (fieldErrors.price) { %><p class="error"><%= fieldErrors.price %></p><% } %>
+
+  <p><button type="submit"><%= submitLabel %></button></p>
+</form>

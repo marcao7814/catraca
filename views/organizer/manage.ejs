@@ -1,0 +1,31 @@
+<p><a href="/organizer/events">← Meus eventos</a></p>
+<h1 id="event-name"><%= event.name %></h1>
+<p>
+  Status: <strong id="event-status" data-status="<%= event.status %>"><%= statusLabel %></strong> ·
+  Início: <%= formatDisplay(event.startsAt) %> ·
+  Local: <%= event.venue %> ·
+  Lotação: <%= event.capacity %> ·
+  Preço: <%= formatBRL(event.priceCents) %>
+</p>
+
+<% if (notice) { %><p class="notice" role="status" id="notice"><%= notice %></p><% } %>
+<% if (error) { %><p class="error" role="alert" id="error"><%= error %></p><% } %>
+
+<% if (event.status === 'draft') { %>
+  <form method="post" action="/organizer/events/<%= event.id %>/publish" id="publish-form">
+    <button type="submit">Publicar evento</button>
+  </form>
+<% } %>
+
+<% for (const slot of slots) { %>
+  <section id="slot-<%= slot.name %>"><%- slot.html %></section>
+<% } %>
+
+<% if (event.status === 'cancelled') { %>
+  <p id="cancelled-notice"><strong>Evento cancelado.</strong> O evento não pode mais ser editado nem publicado.</p>
+<% } else { %>
+  <section id="edit">
+    <h2>Editar evento</h2>
+    <%- include('_event-form', { values, fieldErrors, action: '/organizer/events/' + event.id, submitLabel: 'Salvar alterações' }) %>
+  </section>
+<% } %>
