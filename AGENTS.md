@@ -13,6 +13,7 @@ Pré-requisitos no host: Docker (com Compose), Git e Node.js LTS. Nada mais.
 | `npm run down` | Derruba tudo que a subida e os gates iniciaram (containers e rede; mantém o volume do banco). |
 | `npm run gates` | Lint, typecheck e testes (unidade, integração, E2E) em container contra um Postgres efêmero; depois `check-reports` e `check-state`. Tem que terminar com `GATES: OK`. |
 | `npm run test:docker -- <args>` | Roda o Vitest com argumentos livres (ex.: um arquivo, `-t "C7"`) no container dos gates, contra Postgres efêmero. |
+| `docker compose exec -T app node dist/tools/sales-cli.js buy <eventId> <cartão>` / `ticket <id>` | Compra e consulta direto no motor de vendas (sem API). |
 | `npm run seed` | Roda a seed de novo (idempotente) no app em execução. |
 | `npm run reset` | Derruba e apaga o volume do banco, depois sobe de novo. Só para uso local. |
 | `npm run logs` | Logs do app. |
@@ -94,3 +95,12 @@ test/          unit/ integration/ e2e/ helpers/
 7. Ao final: Fluxo do avaliador completo (brief, passos 1–18) contra a `main`, a partir de clone limpo.
 
 Waves: W0 F01 → W1 F02 → W2 F04 → **W3 em paralelo: F03, F05, F07** → **W4 em paralelo: F06, F08**.
+
+## Trabalho em paralelo (worktrees)
+
+- Cada feature da wave tem o seu worktree e a sua branch, criados a partir da `main` atualizada.
+- `npm run gates` e `npm run test:docker` já usam um projeto Docker próprio por pasta: podem rodar ao mesmo tempo em vários worktrees.
+- Para subir o app em um worktree sem colidir com os outros, crie nele um `.env` (não versionado) com nome de projeto e porta próprios, por exemplo `COMPOSE_PROJECT_NAME=catraca-f03` e `CATRACA_PORT=3103`. Derrube com `npm run down` no mesmo worktree.
+- Não edite `project-state.json` em branch de wave paralela: quem integra a wave atualiza o estado na `main` (evita conflito garantido entre os PRs).
+- Mudanças em arquivos compartilhados (`src/app.ts`, `views/layout.ejs`) devem ser mínimas: uma linha de registro do módulo. Conflitos são resolvidos no PR que mergear por último, com os gates verdes depois da resolução.
+- Para comprar/consultar ingressos sem a API de parceiros: `cli_buy`/`cli_ticket` em `scripts/eval-helpers.sh` (usam `dist/tools/sales-cli.js`).

@@ -4,8 +4,12 @@
 // 2) relatórios de avaliação imutáveis (scripts/check-reports.mjs)
 // 3) project-state.json coerente (scripts/check-state.mjs)
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 
-const compose = ['compose', '-f', 'compose.yml', '-f', 'compose.test.yml', '--profile', 'test'];
+// Projeto Compose próprio por pasta: worktrees em paralelo não compartilham o banco de teste
+// e os gates não interferem no app em execução (projeto "catraca").
+const project = `catraca-gates-${createHash('sha1').update(process.cwd()).digest('hex').slice(0, 8)}`;
+const compose = ['compose', '-p', project, '-f', 'compose.yml', '-f', 'compose.test.yml', '--profile', 'test'];
 
 function run(cmd, args, label) {
   console.log(`\n=== gate: ${label} ===`);
