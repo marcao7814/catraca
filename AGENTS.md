@@ -12,6 +12,7 @@ Pré-requisitos no host: Docker (com Compose), Git e Node.js LTS. Nada mais.
 | `npm run up` | Sobe Postgres + app (`docker compose up -d --build --wait`). O container aplica as migrações e roda a seed antes de abrir a porta. |
 | `npm run down` | Derruba tudo que a subida e os gates iniciaram (containers e rede; mantém o volume do banco). |
 | `npm run gates` | Lint, typecheck e testes (unidade, integração, E2E) em container contra um Postgres efêmero; depois `check-reports` e `check-state`. Tem que terminar com `GATES: OK`. |
+| `npm run test:docker -- <args>` | Roda o Vitest com argumentos livres (ex.: um arquivo, `-t "C7"`) no container dos gates, contra Postgres efêmero. |
 | `npm run seed` | Roda a seed de novo (idempotente) no app em execução. |
 | `npm run reset` | Derruba e apaga o volume do banco, depois sobe de novo. Só para uso local. |
 | `npm run logs` | Logs do app. |

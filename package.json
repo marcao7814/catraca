@@ -13,6 +13,7 @@
     "seed": "docker compose exec app node dist/seed/seed.js",
     "logs": "docker compose logs -f app",
     "gates": "node scripts/gates.mjs",
+    "test:docker": "node scripts/test-docker.mjs",
     "gates:inner": "npm run lint && npm run typecheck && npm run test",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.json",

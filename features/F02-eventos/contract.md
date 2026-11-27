@@ -12,11 +12,11 @@ Convenções, variáveis e helpers: [docs/specs.md](../../docs/specs.md#convenç
 | C2 | POST criar com data de ontem | 422 com mensagem de data no futuro; nenhum evento criado (lista inalterada) |
 | C3 | POST criar com lotação `0`, `1.5` e preço `0` (três chamadas) | 422 em todas |
 | C4 | Editar E1 com data de ontem | 422; data original mantida |
-| C5 | Teste `vitest test/integration/events.sellable.test.ts` | rascunho fora, publicado dentro de `listSellableEvents` |
+| C5 | `npm run test:docker -- test/integration/events.test.ts -t "C5/C6"` | teste passa: rascunho fora, publicado dentro de `listSellableEvents` |
 | C6 | POST `/organizer/events/$E1/publish` | página mostra Publicado |
-| C7 | Inserir 2 tickets `pending` em E1 via teste de integração; editar lotação para 1 | rejeitado com mensagem de vagas ocupadas |
-| C8 | Mesmo cenário, editar lotação para 3 | aceito |
-| C9 | Teste de integração: ticket com `price_paid_cents=10000`, mudar preço para 150,00 | ticket mantém 10000; evento 15000 |
+| C7 | `npm run test:docker -- test/integration/events.test.ts -t "C7"` (ingressos inseridos direto na tabela, pois a compra só chega na F04); opcionalmente, manual: inserir 2 tickets `pending` em E1 com `docker compose exec db psql` e editar a lotação para 1 | rejeitado com "A lotação não pode ser menor que as vagas ocupadas (2)."; recusados/estornados não contam |
+| C8 | `-t "C8"` (mesmo arquivo); manual: editar a lotação de E1 para 3 | aceito (302 `?saved=1`) |
+| C9 | `npm run test:docker -- test/integration/events.test.ts -t "C9"` | ticket mantém 10000; evento 15000 |
 | C10 | `curl -b a.jar $WEB/organizer/events/$E1` | 200 com formulário de edição e nome E1 (URL própria por evento) |
 | C11 | `curl -b b.jar $WEB/organizer/events` | 200 sem "E1" |
 | C12 | `curl -b b.jar -s -w '%{http_code}' $WEB/organizer/events/$E1` | `404`; corpo não contém nome, local, lotação nem preço de E1 |
