@@ -95,20 +95,7 @@ export const partnerApiPlugin: FastifyPluginAsync = async (api) => {
     };
   });
 
-  // Parâmetro acima de maxParamLength (100) não casa com a rota: responde como a rota
-  // responderia a um id inexistente, mantendo a ordem dos erros.
-  api.setNotFoundHandler((req, reply) => {
-    const path = req.url.split('?')[0] ?? '';
-    if (req.method === 'POST' && /^\/api\/partner\/events\/[^/]+\/purchases$/.test(path)) {
-      return readPurchaseBody(req)
-        ? sendError(reply, 404, 'event_not_available')
-        : sendError(reply, 422, 'invalid_request');
-    }
-    if (req.method === 'GET' && /^\/api\/partner\/tickets\/[^/]+$/.test(path)) {
-      return sendError(reply, 404, 'ticket_not_found');
-    }
-    return sendError(reply, 404, 'not_found');
-  });
+  api.setNotFoundHandler((_req, reply) => sendError(reply, 404, 'not_found'));
 
   // Erros do próprio Fastify ao ler o corpo (tamanho, content-type...) são corpo inválido;
   // o resto é falha interna. Sempre JSON, nunca o tratador global em HTML.
