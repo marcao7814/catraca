@@ -1,0 +1,11 @@
+<h1>Entrar</h1>
+<% if (error) { %><p class="error" role="alert"><%= error %></p><% } %>
+<form method="post" action="/login">
+  <% if (next) { %><input type="hidden" name="next" value="<%= next %>"><% } %>
+  <label for="email">E-mail</label>
+  <input id="email" name="email" type="email" value="<%= email %>" required autocomplete="username">
+  <label for="password">Senha</label>
+  <input id="password" name="password" type="password" required autocomplete="current-password">
+  <p><button type="submit">Entrar</button></p>
+</form>
+<p>Ainda não tem conta? <a href="/signup">Criar conta</a></p>
