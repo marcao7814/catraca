@@ -51,6 +51,10 @@ describe('F05 — fluxo do avaliador pela API (E2E)', () => {
     const t1 = (c1.body as { ticketId: string }).ticketId;
     await waitFor(async () => (await ticketStatus(t1)) === 'confirmed', 10_000);
 
+    // Worker pausado durante os passos 6–7: com atrasos escalados (0004 ≈ 0,3 s) a recusa
+    // poderia chegar antes das verificações; no ambiente real há 30–40 s de janela.
+    await stopWorker();
+
     // passo 6
     const c2 = await buyFetch(base, e1, { buyerEmail: 't2@example.com', cardNumber: CARD.declinedSlow });
     expect(c2).toStrictEqual({
@@ -61,14 +65,14 @@ describe('F05 — fluxo do avaliador pela API (E2E)', () => {
     expect((await listed(e1))!.availableSeats).toBe(0);
 
     // passo 7 (a resposta lenta ainda não chegou)
-    if ((await ticketStatus(t2)) === 'pending') {
-      expect(await buyFetch(base, e1, { buyerEmail: 'x@example.com', cardNumber: CARD.approvedFast })).toStrictEqual({
-        status: 409,
-        body: { error: 'sold_out' },
-      });
-    }
+    expect(await ticketStatus(t2)).toBe('pending');
+    expect(await buyFetch(base, e1, { buyerEmail: 'x@example.com', cardNumber: CARD.approvedFast })).toStrictEqual({
+      status: 409,
+      body: { error: 'sold_out' },
+    });
 
     // passo 8
+    stopWorker = startGatewayWorker(10);
     await waitFor(async () => (await ticketStatus(t2)) === 'declined', 10_000);
     expect((await listed(e1))!.availableSeats).toBe(1);
     const c3 = await buyFetch(base, e1, { buyerEmail: 't3@example.com', cardNumber: CARD.approvedFast });
