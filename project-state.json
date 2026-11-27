@@ -1,13 +1,77 @@
 {
-  "updatedAt": "2026-11-26T22:00:00-03:00",
+  "updatedAt": "2026-11-27T01:00:00-03:00",
   "features": [
-    { "id": "F01", "name": "Fundação e harness", "wave": 0, "status": "in_progress", "branch": "feat/F01-fundacao", "pr": null, "latestReport": null },
-    { "id": "F02", "name": "Gestão de eventos", "wave": 1, "status": "todo", "branch": null, "pr": null, "latestReport": null },
-    { "id": "F04", "name": "Motor de vendas e gateway", "wave": 2, "status": "todo", "branch": null, "pr": null, "latestReport": null },
-    { "id": "F03", "name": "Vitrine e área do participante", "wave": 3, "status": "todo", "branch": null, "pr": null, "latestReport": null },
-    { "id": "F05", "name": "API de parceiros", "wave": 3, "status": "todo", "branch": null, "pr": null, "latestReport": null },
-    { "id": "F07", "name": "Cancelamento de evento", "wave": 3, "status": "todo", "branch": null, "pr": null, "latestReport": null },
-    { "id": "F06", "name": "Check-in", "wave": 4, "status": "todo", "branch": null, "pr": null, "latestReport": null },
-    { "id": "F08", "name": "Painel do evento", "wave": 4, "status": "todo", "branch": null, "pr": null, "latestReport": null }
+    {
+      "id": "F01",
+      "name": "Fundação e harness",
+      "wave": 0,
+      "status": "in_review",
+      "branch": "feat/F01-fundacao",
+      "pr": "https://github.com/marcao7814/catraca/pull/1",
+      "latestReport": null
+    },
+    {
+      "id": "F02",
+      "name": "Gestão de eventos",
+      "wave": 1,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F04",
+      "name": "Motor de vendas e gateway",
+      "wave": 2,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F03",
+      "name": "Vitrine e área do participante",
+      "wave": 3,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F05",
+      "name": "API de parceiros",
+      "wave": 3,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F07",
+      "name": "Cancelamento de evento",
+      "wave": 3,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F06",
+      "name": "Check-in",
+      "wave": 4,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    },
+    {
+      "id": "F08",
+      "name": "Painel do evento",
+      "wave": 4,
+      "status": "todo",
+      "branch": null,
+      "pr": null,
+      "latestReport": null
+    }
   ]
 }
