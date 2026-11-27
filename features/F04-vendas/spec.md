@@ -19,7 +19,7 @@ getTicket(ticketId): Promise<Ticket | null>;
 findTicketByCode(eventId, code): Promise<Ticket | null>;
 listTicketsByUser(userId): Promise<(Ticket & { eventName; startsAt })[]>;
 applyGatewayResult(ticketId, outcome: 'approved' | 'declined'): Promise<boolean>; // false = no-op
-startGatewayWorker(): () => void;  // retorna stop
+startGatewayWorker(intervalMs?, log?): () => Promise<void>;  // retorna stop
 interface PaymentGateway { authorize(card: string): { outcome; delayMs } }
 ```
 
@@ -29,7 +29,9 @@ interface PaymentGateway { authorize(card: string): { outcome; delayMs } }
 
 **Gateway simulado.** Tabela do [docs/tdr.md §6](../../docs/tdr.md); `delayMs × GATEWAY_DELAY_SCALE`.
 
-**Worker.** [docs/tdr.md §5.2](../../docs/tdr.md); iniciado em `server.ts`; parado em `onClose`. Retoma attempts pendentes após reinício.
+**Worker.** [docs/tdr.md §5.2](../../docs/tdr.md); iniciado em `server.ts`, parado no shutdown (`lib/lifecycle`). Retoma attempts pendentes após reinício.
+
+**Ferramenta de avaliação.** `src/tools/gateway-timing.ts` (`dist/tools/gateway-timing.js` na imagem): cria evento temporário, compra com os cartões informados e mede o tempo até a resposta aplicada pelo worker do app.
 
 **Transições.** ADR-006: apenas `pending→confirmed|declined` aqui, condicionais.
 
