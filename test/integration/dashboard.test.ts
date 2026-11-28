@@ -9,7 +9,6 @@ import {
   getSeatStats,
   getTicket,
   processDuePayments,
-  purchaseTicket,
   setGateway,
 } from '../../src/modules/sales/index.js';
 import { instantFastGateway, makeAttemptsDue } from '../helpers/cancellation.js';
