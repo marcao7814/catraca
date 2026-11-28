@@ -23,7 +23,7 @@ const RESULT_KEY = 'checkinResult';
  */
 export async function renderCheckinSlot({ event, slotData }: SlotContext): Promise<string> {
   const result = slotData[RESULT_KEY] as CheckinResult | undefined;
-  const resultHtml = result ? `<p id="checkin-result" role="status"><strong>${escapeHtml(result)}</strong></p>` : '';
+  const resultHtml = result ? `<p id="checkin-result">${escapeHtml(result)}</p>` : '';
   if (event.status === 'cancelled') {
     return `<h2>Check-in</h2>${resultHtml}<p id="checkin-closed"><strong>${CHECKIN_MESSAGES.eventCancelled}</strong></p>`;
   }
