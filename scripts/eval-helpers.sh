@@ -37,3 +37,19 @@ cli_buy() {
 cli_ticket() {
   docker compose exec -T app node dist/tools/sales-cli.js ticket "$@"
 }
+
+# mkevent <cookie-jar> <nome> <lotação> <preço> [publish] [dias-a-frente]
+# Cria um evento pela área do organizador (cookie de organizador) e imprime o id.
+# Com "publish" no 5º argumento, publica em seguida. Data: hoje + N dias (padrão 30), 21:00.
+mkevent() {
+  local jar="$1" name="$2" cap="$3" price="$4" pub="${5:-}" days="${6:-30}" when loc id
+  when=$(node -e "const d=new Date(Date.now()+${days}*864e5-3*36e5);console.log(d.toISOString().slice(0,10)+'T21:00')")
+  loc=$(curl -s -o /dev/null -w '%{redirect_url}' -b "$jar" -X POST "$WEB/organizer/events/new" \
+    --data-urlencode "name=$name" --data-urlencode "startsAt=$when" --data-urlencode "venue=Local de teste" \
+    --data-urlencode "capacity=$cap" --data-urlencode "price=$price")
+  id="${loc##*/}"
+  if [ "$pub" = "publish" ]; then
+    curl -s -o /dev/null -b "$jar" -X POST "$WEB/organizer/events/$id/publish"
+  fi
+  echo "$id"
+}
