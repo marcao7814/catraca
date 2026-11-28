@@ -2,7 +2,7 @@
 
 MVP de venda de ingressos para eventos pequenos (shows em bar, workshops, meetups), construído em modo agente a partir do [brief](docs/brief.md).
 
-> Em construção, feature a feature, na ordem das waves do [PRD](docs/prd.md). O estado de cada feature está em [project-state.json](project-state.json).
+> As 8 features do [PRD](docs/prd.md) estão concluídas, cada uma aprovada por um avaliador independente ([project-state.json](project-state.json)). O Fluxo do avaliador completo do brief (passos 1–18) foi executado contra a `main` a partir de um clone limpo, com todos os passos aprovados: [relatório](docs/fluxo-avaliador/2026-11-28-0736-2df51ac.md).
 
 ## Como rodar
 
@@ -49,6 +49,7 @@ Se a porta 3000 estiver ocupada, copie `.env.example` para `.env` e defina `CATR
 | Segurança e guardrails | [docs/seguranca.md](docs/seguranca.md) |
 | Features (spec, plano, contrato, relatórios) | [features/](features/) — uma pasta por feature, `Fxx-<nome>/` |
 | Estado do projeto | [project-state.json](project-state.json) |
+| Fluxo do avaliador completo na `main` (clone limpo) | [docs/fluxo-avaliador/](docs/fluxo-avaliador/) |
 | Porta de entrada dos agentes | [AGENTS.md](AGENTS.md) ([CLAUDE.md](CLAUDE.md) aponta para ele) |
 
 | Feature | Pasta |

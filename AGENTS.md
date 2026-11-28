@@ -44,6 +44,7 @@ Endereço: `http://localhost:3000` (web e API de parceiros). Se a 3000 estiver o
 | Spec, plano e contrato de cada feature | `features/Fxx-<nome>/{spec,plan,contract}.md` |
 | Relatórios de avaliação | `features/Fxx-<nome>/reports/AAAA-MM-DD-HHMM-<sha7>.md` |
 | Estado do projeto | [project-state.json](project-state.json) |
+| Relatórios do Fluxo do avaliador completo (main, clone limpo) | [docs/fluxo-avaliador/](docs/fluxo-avaliador/) |
 | Prompt do implementador | [docs/prompts/implementer.md](docs/prompts/implementer.md) |
 | Prompt do avaliador | [docs/prompts/evaluator.md](docs/prompts/evaluator.md) |
 | Helpers de shell do avaliador | [scripts/eval-helpers.sh](scripts/eval-helpers.sh) |
