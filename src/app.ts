@@ -10,6 +10,7 @@ import './modules/auth/types.js';
 import { authRoutes } from './modules/auth/routes.js';
 import { eventsRoutes } from './modules/events/routes.js';
 import { cancellationRoutes } from './modules/cancellation/routes.js';
+import { checkinRoutes } from './modules/checkin/routes.js';
 import { partnerApiPlugin } from './modules/partner-api/index.js';
 import { storefrontRoutes } from './modules/storefront/routes.js';
 import { dashboardRoutes } from './modules/dashboard/index.js';
@@ -63,6 +64,7 @@ export async function buildApp(opts: BuildAppOptions = {}): Promise<FastifyInsta
   await authRoutes(app);
   await eventsRoutes(app);
   await cancellationRoutes(app);
+  await checkinRoutes(app);
   await storefrontRoutes(app);
   await dashboardRoutes(app);
   await app.register(partnerApiPlugin, { prefix: '/api/partner' });
