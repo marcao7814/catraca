@@ -74,7 +74,14 @@ Se a porta 3000 estiver ocupada, copie `.env.example` para `.env` e defina `CATR
 
 O primeiro commit de cada PR é anterior ao último commit dos outros dois. Depois da implementação, cada PR recebeu o commit do relatório do avaliador e, nos dois últimos a entrar, o commit de integração com a `main` (conflito em `src/app.ts`, resolvido com os gates verdes).
 
-**W4 — F06 e F08:** serão listados aqui quando integrados.
+**W4 — F06 e F08 implementadas ao mesmo tempo**, por dois agentes, cada um em seu worktree e branch:
+
+| PR | Feature | Primeiro commit | Último commit de implementação |
+|---|---|---|---|
+| [#9](https://github.com/marcao7814/catraca/pull/9) | F06 Check-in | 2026-11-28 06:20:40 -03:00 | 2026-11-28 06:31:05 -03:00 |
+| [#10](https://github.com/marcao7814/catraca/pull/10) | F08 Painel do evento | 2026-11-28 06:17:56 -03:00 | 2026-11-28 06:46:24 -03:00 |
+
+Como F08 consome o `checked_in_at` que a F06 grava, a F08 contou a coluna (existente desde a F01) sem importar a F06; o check-in real aparecendo no painel (CX-F06-F08) é provado depois da integração por [test/e2e/integration.w4.test.ts](test/e2e/integration.w4.test.ts).
 
 ## Decisões
 

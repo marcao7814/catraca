@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T16:40:00-03:00",
+  "updatedAt": "2026-11-28T08:00:00-03:00",
   "features": [
     {
       "id": "F01",
@@ -59,19 +59,19 @@
       "id": "F06",
       "name": "Check-in",
       "wave": 4,
-      "status": "todo",
-      "branch": null,
-      "pr": null,
-      "latestReport": null
+      "status": "done",
+      "branch": "feat/F06-checkin",
+      "pr": "https://github.com/marcao7814/catraca/pull/9",
+      "latestReport": "features/F06-checkin/reports/2026-11-28-0709-df046a8.md"
     },
     {
       "id": "F08",
       "name": "Painel do evento",
       "wave": 4,
-      "status": "todo",
-      "branch": null,
-      "pr": null,
-      "latestReport": null
+      "status": "done",
+      "branch": "feat/F08-painel",
+      "pr": "https://github.com/marcao7814/catraca/pull/10",
+      "latestReport": "features/F08-painel/reports/2026-11-28-0711-637fee2.md"
     }
   ]
 }
