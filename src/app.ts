@@ -12,6 +12,7 @@ import { eventsRoutes } from './modules/events/routes.js';
 import { cancellationRoutes } from './modules/cancellation/routes.js';
 import { partnerApiPlugin } from './modules/partner-api/index.js';
 import { storefrontRoutes } from './modules/storefront/routes.js';
+import { dashboardRoutes } from './modules/dashboard/index.js';
 
 export interface BuildAppOptions {
   logger?: boolean;
@@ -63,6 +64,7 @@ export async function buildApp(opts: BuildAppOptions = {}): Promise<FastifyInsta
   await eventsRoutes(app);
   await cancellationRoutes(app);
   await storefrontRoutes(app);
+  await dashboardRoutes(app);
   await app.register(partnerApiPlugin, { prefix: '/api/partner' });
 
   app.setNotFoundHandler((req, reply) =>
